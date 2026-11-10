@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+.docchat_db/
+.pytest_cache/
