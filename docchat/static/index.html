@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DocChat</title>
+  <style>
+    /* Clean, modern typography and responsive container */
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; background: #fafaf7; color: #1d1d1b; }
+    form { display: flex; gap: 8px; }
+    input { flex: 1; padding: 10px; font-size: 16px; border: 1px solid #bbb; border-radius: 6px; }
+    button { padding: 10px 16px; font-size: 16px; border: 0; border-radius: 6px; background: #1d1d1b; color: #fff; cursor: pointer; }
+    #answer { white-space: pre-wrap; margin-top: 24px; line-height: 1.5; }
+    /* Source card styling */
+    .source { font-size: 14px; background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; margin-top: 8px; }
+    .source b { display: block; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <h1>DocChat</h1>
+  <p>Ask a question about your documents. Every answer cites its sources.</p>
+
+  <!-- Input form -->
+  <form id="ask-form">
+    <input id="question" placeholder="How many vacation days do I get?" autocomplete="off" required>
+    <button type="submit">Ask</button>
+  </form>
+
+  <!-- Response output containers -->
+  <div id="answer"></div>
+  <div id="sources"></div>
+
+  <script>
+    const form = document.getElementById("ask-form");
+    const answerEl = document.getElementById("answer");
+    const sourcesEl = document.getElementById("sources");
+
+    form.addEventListener("submit", async (event) => {
+      // Prevent standard browser page reload on form submission
+      event.preventDefault();
+      // Show immediate loading feedback
+      answerEl.textContent = "Thinking...";
+      sourcesEl.innerHTML = "";
+
+      const question = document.getElementById("question").value;
+      // Send async POST request to FastAPI /ask endpoint
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }),
+      });
+
+      // Handle non-200 errors gracefully
+      if (!res.ok) { answerEl.textContent = "Error: " + res.status; return; }
+
+      // Parse JSON response
+      const data = await res.json();
+      // Safely render the answer text using textContent (prevents HTML/script injection)
+      answerEl.textContent = data.answer;
+
+      // Dynamically render each cited source card
+      for (const s of data.sources) {
+        const div = document.createElement("div");
+        div.className = "source";
+        const title = document.createElement("b");
+        title.textContent = `${s.source} - page ${s.page}`;
+        // Append snippet using DOM text node: safe against XSS injection
+        div.append(title, s.text.slice(0, 300) + "...");
+        sourcesEl.append(div);
+      }
+    });
+  </script>
+</body>
+</html>
