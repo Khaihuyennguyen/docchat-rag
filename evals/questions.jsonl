@@ -1,0 +1,12 @@
+{"question": "How many vacation days do full-time employees get each year?", "expected_source": "leave_policy.md"}
+{"question": "Can I carry unused holiday time into next year?", "expected_source": "leave_policy.md"}
+{"question": "How long is paid leave after having or adopting a baby?", "expected_source": "leave_policy.md"}
+{"question": "Do I need a doctor's note when I'm ill?", "expected_source": "leave_policy.md"}
+{"question": "What is the daily food budget on a trip abroad?", "expected_source": "expense_policy.md"}
+{"question": "What is the maximum hotel price per night?", "expected_source": "expense_policy.md"}
+{"question": "Which app do I use to submit receipts?", "expected_source": "expense_policy.md"}
+{"question": "How much money can I get for a desk and chair at home?", "expected_source": "expense_policy.md"}
+{"question": "How long must my password be?", "expected_source": "security_policy.md"}
+{"question": "What should I do if my laptop gets stolen?", "expected_source": "security_policy.md"}
+{"question": "Are SMS codes allowed for 2FA?", "expected_source": "security_policy.md"}
+{"question": "Where do I forward a suspicious email?", "expected_source": "security_policy.md"}
