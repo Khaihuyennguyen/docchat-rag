@@ -1,10 +1,12 @@
 """Command line: Python -m docchat ingest ask eval"""
 import argparse
 import sys
-
+from dotenv import load_dotenv
 from .evaluate import evaluate, load_cases
 from .llm import MissingAPIKey
 from .pipeline import DocChat
+
+load_dotenv()  # Load environment variables from .env file
 
 def main(argv: list[str] | None = None) -> None:
     # Subparse container so users can run distinct commands: ingest, ask, eval

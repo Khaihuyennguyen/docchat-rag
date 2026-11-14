@@ -3,11 +3,12 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
+from dotenv import load_dotenv
 
 from .llm import MissingAPIKey
 
 from .pipeline import DocChat
-
+load_dotenv()  # Load environment variables from .env file
 # This is the absolute path pointing to the static folder holding index.html
 STATIC = Path(__file__).parent / "static"
 
